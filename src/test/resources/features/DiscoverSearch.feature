@@ -11,4 +11,5 @@ Feature: DiscoverSearch
       And first tour has difficulty 'easy'
 
  # Scenario: DiscoverSearch - Search for tour by duration
+    Given I search for 'Inn' on Discover page
   #Scenario: DiscoverSearch - Search for run within distance radius
