@@ -1,8 +1,8 @@
 package configuration;
 
-import context.AppContext;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -10,13 +10,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty", "summary", "json:target/report/cucumber.json", "junit:target/report/cucumber.xml"},
-        features = {"src/main/java/resources/features"},
+        features = {"src/test/resources/features/"},
         glue = {"steps"})
-public class RunCucumberScenarios {
+public class CucumberTestRunner {
+
     @BeforeClass
     public static void initAll() {
         Log.info("STARTING Cucumber Session");
-        Log.info("Website url: " + AppContext.Url);
     }
 
     @AfterClass
