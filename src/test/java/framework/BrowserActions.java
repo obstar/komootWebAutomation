@@ -3,6 +3,7 @@ package framework;
 import configuration.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -43,6 +44,13 @@ public class BrowserActions extends BaseDriver {
         waitElementExists(target);
         clearText(target);
         webdriver.findElement(target).sendKeys(textToSend);
+        waitForAjaxToFinish();
+    }
+
+    public void sendKeys(By target, Keys keyToSend){
+        waitElementExists(target);
+        clearText(target);
+        webdriver.findElement(target).sendKeys(keyToSend);
         waitForAjaxToFinish();
     }
 
@@ -132,10 +140,7 @@ public class BrowserActions extends BaseDriver {
 
     public boolean checkElementExists(By target) {
         try{
-            if (webdriver.findElements(target).size()>0){
-                return true;
-            }
-            return false;
+            return webdriver.findElements(target).size() > 0;
         }
         catch(Throwable t){
             standardWarningOutput(t.getMessage());
@@ -224,6 +229,18 @@ public class BrowserActions extends BaseDriver {
         long duration = (endTime - startTime);
         if (duration > 5000){
             Log.info("[warning] " + getBrowser() + " Execution time for move_to_element_and_verify took: " + duration + "MS");
+        }
+    }
+
+    public void setAttributeElementId(String elementId, String attributeName, String attributeValue) {
+        try{
+            String script = "document.getElementById('"+ elementId + "')" +
+                                    ".setAttribute('" + attributeName + "', '" + attributeValue + "')";
+            ((JavascriptExecutor) webdriver).executeScript(script);
+            Thread.sleep(500);
+        }
+        catch(Throwable t){
+            standardWarningOutput(t.getMessage());
         }
     }
 
