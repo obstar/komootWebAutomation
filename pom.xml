@@ -18,7 +18,6 @@
         <rest.assured.version>4.3.3</rest.assured.version>
         <selenium.version>3.141.59</selenium.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.5</spring.version>
     </properties>
 
     <build>
@@ -116,12 +115,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
             <version>${selenium.version}</version>
@@ -138,5 +131,14 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>4.4.0</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
+
 </project>
