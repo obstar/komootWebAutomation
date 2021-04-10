@@ -48,6 +48,7 @@ public class BaseDriver implements WebDriver {
            case "Firefox":
            default:
                WebDriverManager.firefoxdriver().setup();
+               System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "null");
                this.webdriver = new FirefoxDriver();
                break;
        }
