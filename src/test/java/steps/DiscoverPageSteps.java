@@ -1,6 +1,5 @@
 package steps;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -24,6 +23,11 @@ public class DiscoverPageSteps {
         discoverPageActions.clickChosenDifficulty(difficultyLevel);
     }
 
+    @When("I chose tour duration between {string} and {string} hours")
+    public void iChoseTourDurationBetweenAndHours(String leftSliderHandleHours, String rightSliderHandleHours) {
+        discoverPageActions.moveTourDurationSliderBetween(leftSliderHandleHours, rightSliderHandleHours);
+    }
+
     @Then("user visit Discover page")
     public void userVisitDiscoverPage() {
         discoverPageActions.AssertThatUserVisitThePage();
@@ -34,7 +38,7 @@ public class DiscoverPageSteps {
         discoverPageActions.AssertThatThereAreToursAround(city);
     }
 
-    @And("first tour has difficulty {string}")
+    @Then("first tour has difficulty {string}")
     public void firstTourHasDifficulty(String difficultyLevel) {
         discoverPageActions.AssertThatFirstTourHas(difficultyLevel);
     }
