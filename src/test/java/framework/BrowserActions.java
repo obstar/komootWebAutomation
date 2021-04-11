@@ -61,8 +61,12 @@ public class BrowserActions extends BaseDriver {
 
     public void sendKeys(By target, Keys keyToSend){
         waitElementExists(target);
-        clearText(target);
-        webdriver.findElement(target).sendKeys(keyToSend);
+        try {
+            Thread.sleep(100);
+            webdriver.findElement(target).sendKeys(keyToSend);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         waitForAjaxToFinish();
     }
 
@@ -291,7 +295,7 @@ public class BrowserActions extends BaseDriver {
             Actions slider=new Actions(browserActions.getDriver());
             Action action = slider.dragAndDropBy(browserActions.findElement(target), slideByPixels, 0).build();
             action.perform();
-            Thread.sleep(500);
+            Thread.sleep(1000);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
