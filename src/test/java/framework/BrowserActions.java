@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static steps.ScenarioHooks.browserActions;
 
 public class BrowserActions extends BaseDriver {
 
@@ -232,18 +235,6 @@ public class BrowserActions extends BaseDriver {
         }
     }
 
-    public void setAttributeElementId(String elementId, String attributeName, String attributeValue) {
-        try{
-            String script = "document.getElementById('"+ elementId + "')" +
-                                    ".setAttribute('" + attributeName + "', '" + attributeValue + "')";
-            ((JavascriptExecutor) webdriver).executeScript(script);
-            Thread.sleep(500);
-        }
-        catch(Throwable t){
-            standardWarningOutput(t.getMessage());
-        }
-    }
-
     public void scrollByPixel(int pixels) {
         try{
             ((JavascriptExecutor) webdriver).executeScript("window.scrollBy(0," + pixels +")", "");
@@ -272,6 +263,24 @@ public class BrowserActions extends BaseDriver {
         catch(Throwable t){
             standardWarningOutput(t.getMessage());
         }
+    }
+
+    public void setAttributeElementId(String elementId, String attributeName, String attributeValue) {
+        try{
+            String script = "document.getElementById('"+ elementId + "')" +
+                    ".setAttribute('" + attributeName + "', '" + attributeValue + "')";
+            ((JavascriptExecutor) webdriver).executeScript(script);
+            Thread.sleep(500);
+        }
+        catch(Throwable t){
+            standardWarningOutput(t.getMessage());
+        }
+    }
+
+    public void slideHorizontallyByPixels(By target, int slideByPixels) {
+        Actions slider=new Actions(browserActions.getDriver());
+        Action action = slider.dragAndDropBy(browserActions.findElement(target), slideByPixels, 0).build();
+        action.perform();
     }
 
     public void highLightElement(By target)  {
