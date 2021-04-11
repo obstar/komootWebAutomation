@@ -1,6 +1,7 @@
 package framework;
 
 import configuration.Log;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.DiscoverPage;
 
 import java.util.List;
 import java.util.Set;
@@ -29,6 +31,13 @@ public class BrowserActions extends BaseDriver {
         waitForAjaxToFinish();
     }
 
+    public void assertEquals(Object expected, Object actual) {
+        Log.info("Assert equals");
+        Log.info("Expected: " + expected);
+        Log.info("Actual: " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+    
     public void click(By target)  {
         waitElementExists(target);
         try{
@@ -278,9 +287,15 @@ public class BrowserActions extends BaseDriver {
     }
 
     public void slideHorizontallyByPixels(By target, int slideByPixels) {
-        Actions slider=new Actions(browserActions.getDriver());
-        Action action = slider.dragAndDropBy(browserActions.findElement(target), slideByPixels, 0).build();
-        action.perform();
+        try {
+            Actions slider=new Actions(browserActions.getDriver());
+            Action action = slider.dragAndDropBy(browserActions.findElement(target), slideByPixels, 0).build();
+            action.perform();
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void highLightElement(By target)  {
