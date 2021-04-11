@@ -1,5 +1,6 @@
 package pageActions;
 
+import configuration.Log;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -12,23 +13,41 @@ public class DiscoverPageActions {
     private static int slider30MinutesResolution = 16 ;
 
     public void AssertThatFirstTourHas(String difficultyLevel) {
-        Assert.assertEquals(difficultyLevel, browserActions.getText(DiscoverPage.divTourDifficultyTitle).toLowerCase());
+        browserActions.assertEquals(difficultyLevel, browserActions.getText(DiscoverPage.divTourDifficultyTitle).toLowerCase());
+    }
+
+    public void AssertThatFirstTourDurationIsAtLeast(int minTourDuration) {
+        browserActions.waitForPageLoad();
+        browserActions.waitForAjaxToFinish();
+        browserActions.waitElementVisible(DiscoverPage.spanToursDuration);
+        String toursDurationNumbers = browserActions
+                .getText(DiscoverPage.spanToursDuration)
+                .replaceAll("\\D+","")
+                .replaceAll("(\\d{2})(\\d+)", "$1.$2");
+
+        Log.info("Assert true");
+        Log.info("Condition: " + minTourDuration + " <= " + toursDurationNumbers);
+        Assert.assertTrue(minTourDuration <= Double.valueOf(toursDurationNumbers));
     }
 
     public void AssertThatThereAreToursAround(String city) {
         browserActions.waitForPageLoad();
         browserActions.waitElementVisible(DiscoverPage.spanToursAround);
         String toursAroundText = browserActions.getText(DiscoverPage.spanToursAround);
+        String tourAroundNumbers = toursAroundText.replaceAll("\\D+","");
 
-        Assert.assertTrue(Integer.valueOf(toursAroundText.replaceAll("\\D+","")) > 0);
+        Log.info("Assert true");
+        Log.info("Condition: " + tourAroundNumbers + " > " + 0);
+        Assert.assertTrue(Integer.valueOf(tourAroundNumbers) > 0);
+        Log.info("Assert true");
+        Log.info("Condition: " + toursAroundText + " contains " + city);
         Assert.assertTrue(toursAroundText.contains(city));
     }
 
     public void AssertThatUserVisitThePage() {
         browserActions.waitForPageLoad();
         browserActions.waitElementExists(DiscoverPage.inputSearch);
-
-        Assert.assertEquals(DiscoverPage.Url, browserActions.getDriver().getCurrentUrl());
+        browserActions.assertEquals(DiscoverPage.Url, browserActions.getDriver().getCurrentUrl());
     }
 
     public void clickChosenDifficulty(String difficultyLevel) {
@@ -46,7 +65,7 @@ public class DiscoverPageActions {
         browserActions.waitElementVisible(DiscoverPage.linkRestFilter);
     }
 
-    public void moveTourDurationSliderBetween(String leftSliderHandleHours, String rightSliderHandleHours) {
+    public void moveTourDurationSliderBetween(int leftSliderHandleHours) {
         browserActions.slideHorizontallyByPixels(
                 DiscoverPage.divSliderHandleLeft,
                 getSlideBy(leftSliderHandleHours, getSliderPixelResolution(DiscoverPage.divSliderRange)));
@@ -59,7 +78,7 @@ public class DiscoverPageActions {
         browserActions.sendKeys(DiscoverPage.inputSearch, Keys.ENTER);
     }
 
-    private int getSlideBy(String leftSliderHandleHours, double sliderPixelResolution) {
+    private int getSlideBy(int leftSliderHandleHours, double sliderPixelResolution) {
         double slideBy = sliderPixelResolution * (Double.valueOf(leftSliderHandleHours) * 2 );
         double n = slideBy - Math.floor(slideBy);
         if(n < 0.7) {

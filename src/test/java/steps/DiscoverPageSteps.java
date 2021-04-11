@@ -23,9 +23,9 @@ public class DiscoverPageSteps {
         discoverPageActions.clickChosenDifficulty(difficultyLevel);
     }
 
-    @When("I chose tour duration between {string} and {string} hours")
-    public void iChoseTourDurationBetweenAndHours(String leftSliderHandleHours, String rightSliderHandleHours) {
-        discoverPageActions.moveTourDurationSliderBetween(leftSliderHandleHours, rightSliderHandleHours);
+    @When("I chose at least {int} hours tour duration")
+    public void iChoseTourDurationAtLeastHours(int leftSliderHandleHours) {
+        discoverPageActions.moveTourDurationSliderBetween(leftSliderHandleHours);
     }
 
     @Then("user visit Discover page")
@@ -41,5 +41,10 @@ public class DiscoverPageSteps {
     @Then("first tour has difficulty {string}")
     public void firstTourHasDifficulty(String difficultyLevel) {
         discoverPageActions.AssertThatFirstTourHas(difficultyLevel);
+    }
+
+    @Then("first tour has tour duration at least {int} hours")
+    public void firstTourHasTourDurationAtLeastHours(int minTourDuration) {
+        discoverPageActions.AssertThatFirstTourDurationIsAtLeast(minTourDuration);
     }
 }

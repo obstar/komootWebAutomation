@@ -15,4 +15,5 @@ public class DiscoverPage {
     public static By linkRestFilter = By.xpath("//*[contains(text(), 'Reset Filter')]");
     public static By inputSearch = By.cssSelector("[data-test-id=\"location_search_input\"]");
     public static By spanToursAround = By.cssSelector("[data-test-id=\"tours_around\"]");
+    public static By spanToursDuration = By.cssSelector("[data-test-id=\"t_duration_value\"]");
 }

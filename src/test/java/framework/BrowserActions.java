@@ -37,7 +37,7 @@ public class BrowserActions extends BaseDriver {
         Log.info("Actual: " + actual);
         Assert.assertEquals(expected, actual);
     }
-    
+
     public void click(By target)  {
         waitElementExists(target);
         try{
