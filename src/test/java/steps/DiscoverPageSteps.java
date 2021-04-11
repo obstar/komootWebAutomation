@@ -28,6 +28,16 @@ public class DiscoverPageSteps {
         discoverPageActions.moveTourDurationSliderBetween(leftSliderHandleHours);
     }
 
+    @When("I chose running activity")
+    public void iChoseRunningActivity() {
+        discoverPageActions.clickRunningIcon();
+    }
+
+    @When("I chose within {string} km radius")
+    public void iChoseWithinKmRadius(String distanceRadius) {
+        discoverPageActions.selectActivityWithin(distanceRadius);
+    }
+
     @Then("user visit Discover page")
     public void userVisitDiscoverPage() {
         discoverPageActions.AssertThatUserVisitThePage();
@@ -41,6 +51,11 @@ public class DiscoverPageSteps {
     @Then("first tour has difficulty {string}")
     public void firstTourHasDifficulty(String difficultyLevel) {
         discoverPageActions.AssertThatFirstTourHas(difficultyLevel);
+    }
+
+    @Then("first tour has in title {string}")
+    public void firstTourHasInTitleRunning(String activityName) {
+        discoverPageActions.AssertThatFirstTourTitleContains(activityName);
     }
 
     @Then("first tour has tour duration at least {int} hours")

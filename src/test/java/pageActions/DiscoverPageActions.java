@@ -12,8 +12,15 @@ public class DiscoverPageActions {
 
     private static int slider30MinutesResolution = 16 ;
 
-    public void AssertThatFirstTourHas(String difficultyLevel) {
-        browserActions.assertEquals(difficultyLevel, browserActions.getText(DiscoverPage.divTourDifficultyTitle).toLowerCase());
+
+    public void AssertThatFirstTourTitleContains(String activityName) {
+        browserActions.waitForPageLoad();
+        browserActions.waitElementVisible(DiscoverPage.textTourTitle);
+        String tourTitleText = browserActions.getText(DiscoverPage.textTourTitle);
+
+        Log.info("Assert true");
+        Log.info("Condition: " + tourTitleText + " contains " + activityName);
+        Assert.assertTrue(tourTitleText.contains(activityName));
     }
 
     public void AssertThatFirstTourDurationIsAtLeast(int minTourDuration) {
@@ -30,8 +37,13 @@ public class DiscoverPageActions {
         Assert.assertTrue(minTourDuration <= Double.valueOf(toursDurationNumbers));
     }
 
+    public void AssertThatFirstTourHas(String difficultyLevel) {
+        browserActions.assertEquals(difficultyLevel, browserActions.getText(DiscoverPage.divTourDifficultyTitle).toLowerCase());
+    }
+
     public void AssertThatThereAreToursAround(String city) {
         browserActions.waitForPageLoad();
+        browserActions.waitForAjaxToFinish();
         browserActions.waitElementVisible(DiscoverPage.spanToursAround);
         String toursAroundText = browserActions.getText(DiscoverPage.spanToursAround);
         String tourAroundNumbers = toursAroundText.replaceAll("\\D+","");
@@ -62,7 +74,17 @@ public class DiscoverPageActions {
                 browserActions.click(DiscoverPage.divDifficultLevel);
                 break;
         }
+        //sometimes Tours Around 'city' are not displaying, ergo page refresh
+        browserActions.waitForAjaxToFinish();
+        browserActions.getDriver().navigate().refresh();
         browserActions.waitElementVisible(DiscoverPage.linkRestFilter);
+        browserActions.waitForAjaxToFinish();
+    }
+
+    public void clickRunningIcon() {
+        browserActions.waitElementVisible(DiscoverPage.divRunningIcon);
+        browserActions.waitElementClickable(DiscoverPage.divRunningIcon);
+        browserActions.click(DiscoverPage.divRunningIcon);
     }
 
     public void moveTourDurationSliderBetween(int leftSliderHandleHours) {
@@ -76,6 +98,20 @@ public class DiscoverPageActions {
         browserActions.click(DiscoverPage.inputSearch);
         browserActions.sendKeys(DiscoverPage.inputSearch, cityToFind);
         browserActions.sendKeys(DiscoverPage.inputSearch, Keys.ENTER);
+        browserActions.waitForPageLoad();
+        browserActions.waitForAjaxToFinish();
+    }
+
+    public void selectActivityWithin(String distanceRadius) {
+        browserActions.waitForAjaxToFinish();
+        try {
+            browserActions.click(DiscoverPage.dropdownRadiusDistance);
+            browserActions.click(By.cssSelector("[data-value=\"" + distanceRadius + "\"]"));
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        browserActions.waitForAjaxToFinish();
     }
 
     private int getSlideBy(int leftSliderHandleHours, double sliderPixelResolution) {
