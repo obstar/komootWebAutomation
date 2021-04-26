@@ -45,6 +45,7 @@ public class DiscoverPageActions {
         browserActions.waitForPageLoad();
         browserActions.waitForAjaxToFinish();
         browserActions.waitElementVisible(DiscoverPage.spanToursAround);
+        browserActions.waitElementClickable(DiscoverPage.spanToursAround);
         String toursAroundText = browserActions.getText(DiscoverPage.spanToursAround);
         String tourAroundNumbers = toursAroundText.replaceAll("\\D+","");
 
@@ -94,8 +95,11 @@ public class DiscoverPageActions {
     }
 
     public void searchFor(String cityToFind) {
+        browserActions.waitElementVisible(DiscoverPage.inputSearch);
+        browserActions.waitElementClickable(DiscoverPage.inputSearch);
         browserActions.click(DiscoverPage.inputSearch);
         browserActions.click(DiscoverPage.inputSearch);
+        browserActions.clearInput(DiscoverPage.inputSearch);
         browserActions.sendKeys(DiscoverPage.inputSearch, cityToFind);
         browserActions.sendKeys(DiscoverPage.inputSearch, Keys.ENTER);
         browserActions.waitForPageLoad();

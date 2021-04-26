@@ -134,6 +134,14 @@ public class BrowserActions extends BaseDriver {
         }
     }
 
+    public void clearInput(By target) {
+        try {
+            webdriver.findElement(target).clear();
+        }catch(Throwable t){
+            standardWarningOutput(t.getMessage());
+        }
+    }
+
     public int countMatchingElements(By target) {
         try{
             return webdriver.findElements(target).size();
